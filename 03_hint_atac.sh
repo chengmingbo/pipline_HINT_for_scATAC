@@ -41,12 +41,12 @@ samtools merge -f --threads 10 ${bam_loc}/C4.bam  ../BAM/*_C4.bam
 samtools merge -f --threads 10 ${bam_loc}/C5.bam  ../BAM/*_C5.bam
 samtools merge -f --threads 10 ${bam_loc}/C6.bam  ../BAM/*_C6.bam
 
-samtools index  ../BAM/*_C1.bam
-samtools index  ../BAM/*_C2.bam
-samtools index  ../BAM/*_C3.bam
-samtools index  ../BAM/*_C4.bam
-samtools index  ../BAM/*_C5.bam
-samtools index  ../BAM/*_C6.bam
+samtools index  ${bam_loc}/C1.bam
+samtools index  ${bam_loc}/C2.bam
+samtools index  ${bam_loc}/C3.bam
+samtools index  ${bam_loc}/C4.bam
+samtools index  ${bam_loc}/C5.bam
+samtools index  ${bam_loc}/C6.bam
 
 
 
