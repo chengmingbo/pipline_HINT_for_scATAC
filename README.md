@@ -21,7 +21,10 @@
 
 ## 3. run HINT-ATAC on bam files
   `sh 03_hint_atac.sh` includes a bunch of commands to run HINT-ATAC on bam files
+
     01. merge all bam files that belong to the same cluster
+
     02. call peaks for each cluster & perform footprinting
+
     03. calculate the differential footprinting
 
