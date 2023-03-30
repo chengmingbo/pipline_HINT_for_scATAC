@@ -1,0 +1,11 @@
+## python
+pysam
+
+
+## R
+stringr
+
+## tools
+samtools
+macs2
+RGT-HINT: https://reg-gen.readthedocs.io/en/latest/hint/introduction.html

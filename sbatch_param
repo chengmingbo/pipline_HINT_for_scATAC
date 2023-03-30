@@ -1,0 +1,144 @@
+#!/bin/env python
+import os
+import sys 
+import getopt
+from glob import glob
+from datetime import datetime
+from tempfile import TemporaryFile
+
+
+name="keep"
+filename=""
+a=b=c=d=e=""
+l="logs"
+
+def usage():
+    print("""sbatch_param 
+        -f --file  batch script 
+        -n --name  logname
+        -l --logdir log directory 
+        -a --aaaaa param 1  
+        -b --bbbbb param 2  
+        -c --ccccc param 3  
+        -d --ddddd param 4  
+        -e --eeeee param 5  
+        """)
+
+## Parameters
+try:
+    options,args = getopt.getopt(sys.argv[1:], "f:n:a:b:c:d:e:l:h",["file=",
+                                                                    "name=",
+                                                                    "aaaaa=",
+                                                                    "bbbbb=",
+                                                                    "ccccc=",
+                                                                    "ddddd=",
+                                                                    "eeeee=",
+                                                                    "logdir=",
+                                                                    "help"])
+except getopt.GetoptError:
+    print("Erorr Parametes")
+    sys.exit()
+
+
+
+
+for k, v in options:
+    if k in ["-h", "--help"]:
+        usage()
+        sys.exit(0)
+ 
+    if k in ["-f", "--file"]:
+        filename = v 
+ 
+    if k in ["-n", "--name"]:
+        name = v 
+
+    if k in ["-a", "--aaaaa"]:
+        a = v 
+
+    if k in ["-b", "--bbbbb"]:
+        b = v 
+
+    if k in ["-c", "--ccccc"]:
+        c = v 
+
+    if k in ["-d", "--ddddd"]:
+        d = v 
+
+    if k in ["-e", "--eeeee"]:
+        e = v 
+
+    if k in ["-l", "--logdir"]:
+        l = v 
+
+#end parameter
+
+def __exe(content):
+    print(content)
+    os.system(content)
+
+
+
+#execute=print
+execute=os.system
+#execute=__exe
+
+
+if not filename:
+    print("Error: no input sbatch file!")
+    usage()
+    sys.exit(1)
+
+if not os.path.exists(filename):
+    print(f"Error: file {filename} doesn't exist!")
+    sys.exit(1)
+
+
+if not os.path.exists(f"{l}"):
+    os.mkdir(l)
+    
+
+t = str(datetime.now()).replace(" ", "_")
+if name and name!="keep":
+    print(f"=======>task name: {name}_{t}")
+    print(f"=======>task logs: {name}_{t}.txt")
+    print(f"=======>task erorrs: {name}_{t}.txt")
+
+    name_path=os.path.join(f"{l}", name)
+    execute(f"sed -i 's!#SBATCH -J.*$!#SBATCH -J {name}_{t}!' {filename}")
+    execute(f"sed -i 's!#SBATCH -e.*$!#SBATCH -e {name_path}_{t}.txt!' {filename}")
+    execute(f"sed -i 's!#SBATCH -o.*$!#SBATCH -o {name_path}_{t}.txt!' {filename}")
+
+
+while True:
+    if a: 
+        print(f"=======>param a: {a}")
+        #execute(f"sed -i 's/aaaaa=.*$/aaaaa=\"{a}\"/' {filename}")
+        execute(f"sed -i 's#aaaaa=.*$#aaaaa=\"{a}\"#' {filename}")
+    else:
+        break 
+    if b:
+        print(f"=======>param b: {b}")
+        execute(f"sed -i 's/bbbbb=.*$/bbbbb=\"{b}\"/' {filename}")    
+    else:
+        break
+    if c:
+        print(f"=======>param c: {c}")
+        execute(f"sed -i 's/ccccc=.*$/ccccc=\"{c}\"/' {filename}")    
+    else:
+        break
+    if d:
+        print(f"=======>param d: {d}")
+        execute(f"sed -i 's/ddddd=.*$/ddddd=\"{d}\"/' {filename}")    
+    else:
+        break
+    if e:
+        print(f"=======>param e: {e}")
+        execute(f"sed -i 's/eeeee=.*$/eeeee=\"{e}\"/' {filename}")    
+    else:
+        break
+
+
+execute(f"sbatch {filename}")
+
+
