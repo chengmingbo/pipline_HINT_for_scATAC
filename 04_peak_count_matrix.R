@@ -26,6 +26,10 @@ mute(library(doParallel))
 mute(library(Matrix))
 mute(library(optparse))
 
+
+##!!!! please change the species parameter before running the script
+
+
 peak_dir = "../data/peak"
 
 ## define helper function
