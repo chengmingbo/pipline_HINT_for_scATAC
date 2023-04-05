@@ -28,3 +28,5 @@
 
     03. calculate the differential footprinting
 
+## 4. Can use the merged peak to redo the counting of fragments count matrix
+    01. `Rscript 04_peak_count_matrix.R` first get the merged peaks from all clusters, then count the fragments using the union peaks
